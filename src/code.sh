@@ -7,20 +7,21 @@ set -exo pipefail
 dx-download-all-inputs
 
 # get mean coverage values for exons 3 and 27
-exon3=$(awk -F"\t" '$4=="KMT2A" && $6="3" {$8}' "$ptd_input_path")
-exon27=$(awk -F"\t" '$4=="KMT2A" && $6="27" {$8}' "$ptd_input_path")
+exon3=$(awk -F"\t" '$4 == "KMT2A" && $6 == "3" {print $8}' "$ptd_input_path")
+exon27=$(awk -F"\t" '$4 == "KMT2A" && $6 == "27" {print $8}' "$ptd_input_path")
 
 # divide the two together
-coverage_ratio=$(echo "scale=5 ; $exon3 / $exon27" | bc)
+coverage_ratio=$(bc <<< "scale=5 ; $exon3 / $exon27")
 
 # create output dir and output file
 output_dir="${HOME}/out/ptd_output/eggd_kmt2a_ptds/"
-mkdir -p "$output_dir"
-output_path="${output_dir}${ptd_input_prefix}_kmt2a_ptd_ratio.tsv"
+output_file="${output_dir}${ptd_input_prefix}_kmt2a_ptd_ratio.tsv"
 
-"exon_3\texon_27\tratio\n" \
-"${exon3}\t${exon27}\t${coverage_ratio}" > \
-"$output_path"
+mkdir -p "$output_dir"
+
+printf "exon_3\texon_27\tratio\n%f\t%f\t%f\n" \
+"${exon3}" "${exon27}" "${coverage_ratio}" \
+> "$output_file"
 
 # upload output
 dx-upload-all-outputs
