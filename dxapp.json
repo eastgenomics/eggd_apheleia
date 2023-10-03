@@ -1,0 +1,66 @@
+{
+    "name": "eggd_kmt2a_ptds",
+    "title": "eggd_kmt2a_ptds",
+    "summary": "Detection of KMT2A partial tandem duplications",
+    "tags": [
+    ],
+    "properties": {
+      "github release": ""
+    },
+    "dxapi": "1.0.0",
+    "version":"1.2.1",
+    "openSource": true,
+    "inputSpec": [
+      {
+        "name": "ptd_input",
+        "label": "ptd_input",
+        "help": "TSV file with exon-level coverage data",
+        "class": "file",
+        "patterns": ["*_exon_stats.tsv$"],
+        "optional": false
+      }
+    ],
+    "outputSpec": [
+      {
+        "name": "ptd_output",
+        "label": "ptd_output",
+        "help": "File with coverage fold-change values",
+        "class": "file"
+      }
+    ],
+    "runSpec": {
+      "execDepends": [
+      ],
+      "distribution" : "Ubuntu",
+      "release":"20.04",
+      "version":"0",
+      "file": "src/code.sh",
+      "interpreter": "bash",
+      "timeoutPolicy": {
+        "*": {
+          "hours": 48
+        }
+      },
+      "assetDepends": [
+      ]
+    },
+    "developers":[
+      "user-Jay_Miles",
+      "org-emee_1"
+    ],
+    "authorizedUsers": [
+      "org-emee_1"
+    ],
+    "access": {
+      "allProjects":"UPLOAD"
+    },
+    "regionalOptions": {
+      "aws:eu-central-1": {
+        "systemRequirements": {
+          "main": {
+            "instanceType": "mem1_ssd1_x32"
+          }
+        }
+      }
+    }
+  }
