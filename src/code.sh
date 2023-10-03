@@ -21,8 +21,8 @@ main() {
 
     mkdir -p "$output_dir"
 
-    printf "exon_3\texon_27\tratio\n%f\t%f\t%f\n" \
-    "${exon3}" "${exon27}" "${coverage_ratio}" \
+    printf "sample\texon_3\texon_27\tratio\n%s\t%f\t%f\t%f\n" \
+    "$ptd_input_prefix" "$exon3" "$exon27" "$coverage_ratio" \
     > "$output_file"
 
     # upload output
