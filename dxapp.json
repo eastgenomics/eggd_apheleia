@@ -58,7 +58,7 @@
       "aws:eu-central-1": {
         "systemRequirements": {
           "main": {
-            "instanceType": "mem1_ssd1_x32"
+            "instanceType": "mem1_ssd1_x2"
           }
         }
       }
