@@ -16,7 +16,7 @@
         "label": "ptd_input",
         "help": "TSV file with exon-level coverage data",
         "class": "file",
-        "patterns": ["*_exon_stats.tsv$"],
+        "patterns": ["*_exon_stats.tsv"],
         "optional": false
       }
     ],
