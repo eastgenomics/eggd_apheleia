@@ -1,6 +1,6 @@
 {
-    "name": "eggd_kmt2a_ptds",
-    "title": "eggd_kmt2a_ptds",
+    "name": "eggd_hydra",
+    "title": "eggd_hydra",
     "summary": "Calculates fold-change ratio for KMT2A PTDs",
     "description": "Calculates the ratio of exon 3 mean coverage to exon 27 mean coverage in the KMT2A gene, used for evaluating KMT2A partial tandem duplications",
     "tags": [

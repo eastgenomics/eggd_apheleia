@@ -16,8 +16,8 @@ main() {
     coverage_ratio=$(bc <<< "scale=5 ; $exon3 / $exon27")
 
     # create output dir and output file
-    output_dir="${HOME}/out/ptd_output/eggd_kmt2a_ptds/"
-    output_file="${output_dir}${ptd_input_prefix}_kmt2a_ptd_ratio.tsv"
+    output_dir="${HOME}/out/ptd_output/eggd_hydra/"
+    output_file="${output_dir}${ptd_input_prefix}_hydra_output.tsv"
 
     mkdir -p "$output_dir"
 
