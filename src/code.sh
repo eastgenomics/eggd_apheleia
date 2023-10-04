@@ -9,20 +9,20 @@ main() {
     dx-download-all-inputs
 
     # get mean coverage values for exons 3 and 27
-    exon3=$(awk -F"\t" '$4 == "KMT2A" && $6 == "3" {print $8}' "$ptd_input_path")
-    exon27=$(awk -F"\t" '$4 == "KMT2A" && $6 == "27" {print $8}' "$ptd_input_path")
+    exon3=$(awk -F"\t" '$4 == "KMT2A" && $6 == "3" {print $8}' "$hydra_input_path")
+    exon27=$(awk -F"\t" '$4 == "KMT2A" && $6 == "27" {print $8}' "$hydra_input_path")
 
     # divide the two together
     coverage_ratio=$(bc <<< "scale=5 ; $exon3 / $exon27")
 
     # create output dir and output file
-    output_dir="${HOME}/out/ptd_output/eggd_hydra/"
-    output_file="${output_dir}${ptd_input_prefix}_hydra_output.tsv"
+    output_dir="${HOME}/out/hydra_output/eggd_hydra/"
+    output_file="${output_dir}${hydra_input_prefix}_hydra_output.tsv"
 
     mkdir -p "$output_dir"
 
     printf "sample\texon_3\texon_27\tratio\n%s\t%f\t%f\t%f\n" \
-    "$ptd_input_prefix" "$exon3" "$exon27" "$coverage_ratio" \
+    "$hydra_input_prefix" "$exon3" "$exon27" "$coverage_ratio" \
     > "$output_file"
 
     # upload output

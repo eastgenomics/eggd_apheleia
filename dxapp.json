@@ -12,8 +12,8 @@
     "openSource": true,
     "inputSpec": [
       {
-        "name": "ptd_input",
-        "label": "ptd_input",
+        "name": "hydra_input",
+        "label": "hydra_input",
         "help": "TSV file with exon-level coverage data",
         "class": "file",
         "patterns": ["*_exon_stats.tsv"],
@@ -22,8 +22,8 @@
     ],
     "outputSpec": [
       {
-        "name": "ptd_output",
-        "label": "ptd_output",
+        "name": "hydra_output",
+        "label": "hydra_output",
         "help": "File with coverage fold-change values",
         "class": "file"
       }
