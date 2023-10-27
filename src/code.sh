@@ -40,7 +40,7 @@ main() {
             coverage_ratio=$(bc <<< "scale=5 ; $exon3 / $exon27")
 
             # compare ratio to threshold
-            if [[ $(bc -l <<< "$coverage_ratio > 1.1793") -eq 1 ]]; then
+            if [[ $(bc -l <<< "$coverage_ratio >= 1.1793") -eq 1 ]]; then
                 over_threshold=true
             else
                 over_threshold=false
