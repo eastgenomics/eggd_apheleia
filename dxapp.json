@@ -1,0 +1,65 @@
+{
+    "name": "eggd_hydra",
+    "title": "eggd_hydra",
+    "summary": "Calculates fold-change ratio for KMT2A PTDs",
+    "description": "Given the name of a DNAnexus project, calculates the ratio of exon 3 mean coverage to exon 27 mean coverage in the KMT2A gene for each sample.",
+    "tags": [
+    ],
+    "properties": {
+      "github release": ""
+    },
+    "dxapi": "1.0.0",
+    "openSource": true,
+    "inputSpec": [
+      {
+        "name": "hydra_input_project",
+        "label": "hydra_input_project",
+        "help": "Name of DNAnexus project containing exon_stats.tsv files",
+        "class": "string",
+        "optional": false
+      }
+    ],
+    "outputSpec": [
+      {
+        "name": "hydra_output",
+        "label": "hydra_output",
+        "help": "File with coverage fold-change values",
+        "class": "file"
+      }
+    ],
+    "runSpec": {
+      "execDepends": [
+      ],
+      "distribution" : "Ubuntu",
+      "release":"20.04",
+      "version":"0",
+      "file": "src/code.sh",
+      "interpreter": "bash",
+      "timeoutPolicy": {
+        "*": {
+          "hours": 48
+        }
+      },
+      "assetDepends": [
+      ]
+    },
+    "developers":[
+      "user-Jay_Miles",
+      "org-emee_1"
+    ],
+    "authorizedUsers": [
+      "org-emee_1"
+    ],
+    "access": {
+      "allProjects":"UPLOAD"
+    },
+    "regionalOptions": {
+      "aws:eu-central-1": {
+        "systemRequirements": {
+          "main": {
+            "instanceType": "mem1_ssd1_x2"
+          }
+        }
+      }
+    }
+  }
