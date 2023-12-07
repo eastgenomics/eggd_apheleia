@@ -9,8 +9,8 @@ If both of these ratios surpass certain predetermined threshold values, this sug
 
 The thresholds are determined as the lowest value calculated by Hydra from 6 confirmed positive cases. They are:
 
-- exon 3: 1.1793
-- exons 3 & 5: 2.28548
+- exon 3 / exon 27: 1.1793
+- (exon 3 + exon 5) / exon 27: 2.28548
 
 This app is intended for inclusion in the Uranus workflow for somatic variant calling in haematological oncology cases.
 
@@ -21,6 +21,8 @@ dx run (app id) -ihydra_input_project=(project id or name) -y
 The app takes one non-optional input argument, hydra_input_project, which is the name or object ID of a DNAnexus project.
 
 It returns as output a single .tsv file, which lists the mean coverage values for exons 3, 5 and 27, the ratios described above, and whether or not each ratio is above the threshold, for each sample in the project which has an exon_stats.tsv file. If a file is archived, no data will be returned.
+
+The final column in the output workbook lists whether any of exons 3, 5 or 27 have less than 90% coverage at 250x, which is a QC threshold used in the Uranus pipeline.
 
 ## References
 
