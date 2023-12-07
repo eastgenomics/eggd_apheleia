@@ -12,6 +12,8 @@ The thresholds are determined as the lowest value calculated by Hydra from 6 con
 - exon 3 / exon 27: 1.1793
 - (exon 3 + exon 5) / exon 27: 2.28548
 
+This combination of exon ratios was chosen because it was the simplest combination which can exclude a known false positive among control samples used for testing. Further information can be found at https://cuhbioinformatics.atlassian.net/wiki/spaces/URA/pages/3045458090/231205+eggd+hydra+v0.0.2
+
 This app is intended for inclusion in the Uranus workflow for somatic variant calling in haematological oncology cases.
 
 ## Usage
