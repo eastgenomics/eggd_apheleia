@@ -1,6 +1,6 @@
 {
-    "name": "eggd_hydra",
-    "title": "eggd_hydra",
+    "name": "eggd_hydra_v0.0.2",
+    "title": "eggd_hydra_v0.0.2",
     "summary": "Calculates fold-change ratio for KMT2A PTDs",
     "description": "Given the name of a DNAnexus project, calculates the ratio of exon 3 mean coverage to exon 27 mean coverage in the KMT2A gene for each sample.",
     "tags": [
