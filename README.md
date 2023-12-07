@@ -1,8 +1,18 @@
 # eggd_hydra app
 
-Given the name or ID of a DNAnexus project, this app identifies all exon_stats.tsv files within that project and calculates the ratio of exon 3 to exon 27 mean coverage in the KMT2A gene. If this ratio surpasses a threshold value this suggests the possible presence of a partial tandem duplication (KMT2A-PTD) in that sample.
+Given the name or ID of a DNAnexus project, this app identifies all exon_stats.tsv files within that project and calculates ratios of mean exon coverage in the KMT2A gene:
 
-The coverage ratio threshold currently in use is 1.1793, which is the lowest value calculated by Hydra from 6 confirmed positive cases.
+- exon 3 / exon 27
+- (exon 3 + exon 5) / exon 27
+
+If both of these ratios surpass certain predetermined threshold values, this suggests the possible presence of a partial tandem duplication (KMT2A-PTD) in that sample.
+
+The thresholds are determined as the lowest value calculated by Hydra from 6 confirmed positive cases. They are:
+
+- exon 3 / exon 27: 1.1793
+- (exon 3 + exon 5) / exon 27: 2.28548
+
+This combination of exon ratios was chosen because it was the simplest combination which can exclude a known false positive among control samples used for testing. Further information can be found at https://cuhbioinformatics.atlassian.net/wiki/spaces/URA/pages/3045458090/231205+eggd+hydra+v0.0.2
 
 This app is intended for inclusion in the Uranus workflow for somatic variant calling in haematological oncology cases.
 
@@ -12,7 +22,9 @@ dx run (app id) -ihydra_input_project=(project id or name) -y
 
 The app takes one non-optional input argument, hydra_input_project, which is the name or object ID of a DNAnexus project.
 
-It returns as output a single .tsv file, which lists the mean coverage values for exons 3 and 27, the ratio of one to the other, and whether or not this ratio is above the threshold, for each sample in the project which has an exon_stats.tsv file. If a file is archived, no data will be returned.
+It returns as output a single .tsv file, which lists the mean coverage values for exons 3, 5 and 27, the ratios described above, and whether or not each ratio is above the threshold, for each sample in the project which has an exon_stats.tsv file. If a file is archived, no data will be returned.
+
+The final column in the output workbook lists whether any of exons 3, 5 or 27 have less than 90% coverage at 250x, which is a QC threshold used in the Uranus pipeline.
 
 ## References
 
