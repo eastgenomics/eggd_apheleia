@@ -36,8 +36,8 @@ main() {
             # check all exons of interest have >90% at 250x coverage
             cov_issues=""
             for exon in "3" "5" "27"; do
-                cov_250=$(awk -F"\t" -v exon="$exon" '$4=="KMT2A" && $6==exon {print $11}' "$file_name")
-                if (( $cov_250 <= 90 )); then
+                cov_250=$(awk -F "\t" -v exon="$exon" '$4=="KMT2A" && $6==exon {print $11}' "$file_name")
+                if [[ $(bc -l <<< "$cov_250 <= 90") -eq 1 ]]; then
                     cov_issues="${cov_issues}${exon} "
                 fi
             done
