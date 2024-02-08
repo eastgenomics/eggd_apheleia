@@ -22,7 +22,7 @@ dx run (app id) -iexon_stats=(file id) -y
 
 The app takes one mandatory input argument, exon_stats, which is the file ID for a Uranus sample's exon-level Athena coverage file.
 
-It returns as output a single .tsv file, which lists the mean coverage values for exons 3, 5 and 27, the ratios described above, and whether or not each ratio is above its threshold.
+It returns as output a single .tsv file, which lists the mean coverage values for exons 3, 5 and 27, the ratios described above, and whether or not each ratio is above its threshold for calling putative KMT2A PTDs.
 
 The final column in the output workbook lists whether any of exons 3, 5 or 27 have less than 90% coverage at 250x, which is a QC threshold used in the Uranus workflow.
 
