@@ -1,6 +1,6 @@
 # eggd_hydra app
 
-Given the name or ID of a DNAnexus project, this app identifies all exon_stats.tsv files within that project and calculates ratios of mean exon coverage in the KMT2A gene:
+Given the file ID for a Uranus sample's exon-level Athena coverage file, this app calculates two ratios using mean exon coverage in the KMT2A gene:
 
 - exon 3 / exon 27
 - (exon 3 + exon 5) / exon 27
@@ -18,15 +18,16 @@ This app is intended for inclusion in the Uranus workflow for somatic variant ca
 
 ## Usage
 
-dx run (app id) -ihydra_input_project=(project id or name) -y
+dx run (app id) -iexon_stats=(file id) -y
 
-The app takes one non-optional input argument, hydra_input_project, which is the name or object ID of a DNAnexus project.
+The app takes one mandatory input argument, exon_stats, which is the file ID for a Uranus sample's exon-level Athena coverage file.
 
-It returns as output a single .tsv file, which lists the mean coverage values for exons 3, 5 and 27, the ratios described above, and whether or not each ratio is above the threshold, for each sample in the project which has an exon_stats.tsv file. If a file is archived, no data will be returned.
+It returns as output a single .tsv file, which lists the mean coverage values for exons 3, 5 and 27, the ratios described above, and whether or not each ratio is above its threshold for calling putative KMT2A PTDs.
 
-The final column in the output workbook lists whether any of exons 3, 5 or 27 have less than 90% coverage at 250x, which is a QC threshold used in the Uranus pipeline.
+The final column in the output workbook lists whether any of exons 3, 5 or 27 have less than 90% coverage at 250x, which is a QC threshold used in the Uranus workflow.
 
 ## References
 
 The original work on identification of KMT2A-PTDs using exon coverage ratios is described in:
+
 McKerrell T., Moreno T., Vassiliou G.S., et al.; 2016. Development and validation of a comprehensive genomic diagnostic tool for myeloid malignancies. Blood 128(1), e1-e9
