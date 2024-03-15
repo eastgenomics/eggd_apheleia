@@ -1,4 +1,4 @@
-# eggd_hydra app
+# eggd_apheleia app
 
 Given the file ID for a Uranus sample's exon-level Athena coverage file, this app calculates two ratios using mean exon coverage in the KMT2A gene:
 
@@ -7,7 +7,7 @@ Given the file ID for a Uranus sample's exon-level Athena coverage file, this ap
 
 If both of these ratios surpass certain predetermined threshold values, this suggests the possible presence of a partial tandem duplication (KMT2A-PTD) in that sample.
 
-The thresholds are determined as the lowest value calculated by Hydra from 6 confirmed positive cases. They are:
+The thresholds are determined as the lowest value calculated by Apheleia from 6 confirmed positive cases. They are:
 
 - exon 3 / exon 27: 1.1793
 - (exon 3 + exon 5) / exon 27: 2.28548
