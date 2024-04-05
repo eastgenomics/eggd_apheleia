@@ -5,56 +5,70 @@ main() {
     # output lines as executed, stop at any non-zero exit codes
     set -exo pipefail
 
-    # the only input is exon_stats, which is an Athena output file
+    # the only input is exon_stats, a .tsv file output by Athena
     dx-download-all-inputs
 
     # define sample name, make output dir and file
     sample="${exon_stats_prefix%%_exon_stats}"
     output_dir="${HOME}/out/apheleia_tsv/eggd_apheleia/"
-    apheleia_tsv="${output_dir}${sample}_apheleia_output.tsv"
+    output_file="${output_dir}${sample}_apheleia_output.tsv"
 
     mkdir -p "$output_dir"
-    printf "sample\texon_3\texon_5\texon_27\texon_3_ratio\texons_3_plus_5_ratio\texon_3_pass\texons_3_plus_5_pass\tprediction\t250x_issue\n" > "$apheleia_tsv"
 
-    # check all exons of interest have >90% at 250x coverage
+    # initialise variables
+    exons="3 4 5 6"
+    predicted_ptd="true"
+    output_str=""
     cov_issues=""
-    for exon in "3" "5" "27"; do
+
+    # get mean coverage for KMT2A exon 27
+    exon_27=$(awk -F"\t" '$4=="KMT2A" && $6=="27" {print $8}' "$exon_stats_path")
+
+    # for each of the canonical PTD exons (KMT2A exons 3-6)...
+    for exon in $exons; do
+
+        # get mean exon coverage from input file
+        coverage=$(awk -F"\t" -v exon="$exon" '$4=="KMT2A" && $6==exon {print $8}' "$exon_stats_path")
+
+        # calculate ratio compared to exon 27
+        ratio=$(bc <<< "scale=5 ; ${coverage} / ${exon_27}")
+
+        # define the ratio threshold for each exon
+        if [[ "$exon" == "3" ]]; then
+            threshold="1.1793"
+        elif [[ "$exon" == "4" ]]; then
+            threshold="0.9055"
+        elif [[ "$exon" == "5" ]]; then
+            threshold="0.9279"
+        elif [[ "$exon" == "6" ]]; then
+            threshold="0.8521"
+        fi
+
+        # if any exon doesn't pass its threshold, PTD prediction is false
+        if [[ $(bc -l <<< "${ratio} < ${threshold}") -eq 1  ]]; then
+            predicted_ptd="false"
+            echo "exon ${exon} fails, threshold is ${threshold} but ratio is ${ratio}"
+        fi
+
+        # add exon's coverage, ratio and threshold to output string
+        output_str="${output_str}${coverage}\t${ratio}\t${threshold}\t"
+
+        # if 250x coverage is <=90%, note that the exon has coverage issues
         cov_250=$(awk -F "\t" -v exon="$exon" '$4=="KMT2A" && $6==exon {print $11}' "$exon_stats_path")
+
         if [[ $(bc -l <<< "${cov_250} <= 90") -eq 1 ]]; then
             cov_issues="${cov_issues}${exon} "
         fi
     done
 
-    # get raw mean coverage for exons of interest
-    exon_3=$(awk -F"\t" '$4 == "KMT2A" && $6 == "3" {print $8}' "$exon_stats_path")
-    exon_5=$(awk -F"\t" '$4 == "KMT2A" && $6 == "5" {print $8}' "$exon_stats_path")
-    exon_27=$(awk -F"\t" '$4 == "KMT2A" && $6 == "27" {print $8}' "$exon_stats_path")
+    # add data to output file
+    printf "sample\tpredicted_ptd\texon_3_mean_coverage\texon_3_ratio\texon_3_threshold\texon_4_mean_coverage\texon_4_ratio\texon_4_threshold\texon_5_mean_coverage\texon_5_ratio\texon_5_threshold\texon_6_mean_coverage\texon_6_ratio\texon_6_threshold\t250x_coverage_issues\n" > "$output_file"
+    printf "%s\t%s\t%b\t%s\n" "$sample" "$predicted_ptd" "$output_str" "$cov_issues" >> "$output_file"
 
-    # calculate ratios
-    ratio_3=$(bc <<< "scale=5 ; ${exon_3} / ${exon_27}")
-    ratio_3_plus_5=$(bc <<< "scale=5 ; (${exon_3} + ${exon_5}) / ${exon_27}")
-
-    # compare ratios to thresholds
-    pass_3=false
-    pass_3_plus_5=false
-    prediction=false
-
-    if [[ $(bc -l <<< "${ratio_3} >= 1.1793") -eq 1  ]]; then
-        pass_3=true
-    fi
-
-    if [[ $(bc -l <<< "${ratio_3_plus_5} >= 2.28548") -eq 1 ]]; then
-        pass_3_plus_5=true
-    fi
-
-    if [[ "$pass_3" == true ]] && [[ "$pass_3_plus_5" == true ]]; then
-        prediction=true
-    fi
-
-    # add to output file
-    printf "%s\t%f\t%f\t%f\t%f\t%f\t%s\t%s\t%s\t%s\n" \
-    "$sample" "$exon_3" "$exon_5" "$exon_27" "$ratio_3" "$ratio_3_plus_5" "$pass_3" "$pass_3_plus_5" "$prediction" "$cov_issues" \
-    >> "$apheleia_tsv"
+    # add executable name and version to output
+    job_id="$DX_JOB_ID"
+    job_name=$(dx describe "$job_id" --json | jq -r '.name')
+    printf "\nFile generated on:\t%s\nExecutable:\t%s\nJob ID:\t%s\n" "$(date '+%Y-%m-%d %H:%M:%S')" "$job_name" "$job_id" >> "$output_file"
 
     # upload output
     dx-upload-all-outputs
