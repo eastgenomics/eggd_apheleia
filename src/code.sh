@@ -22,7 +22,7 @@ main() {
     cov_issues=""
 
     # get mean coverage for KMT2A exon 27
-    exon_27=$(awk -F"\t" '$4=="KMT2A" && $6=="27" {print $8}' "$exon_stats_path")
+    exon_27=$(awk -F "\t" '$4=="KMT2A" && $6=="27" {print $8}' "$exon_stats_path")
 
     # for each of the canonical PTD exons (KMT2A exons 3-6)...
     for exon in $exons; do
@@ -31,7 +31,7 @@ main() {
         coverage=$(awk -F"\t" -v exon="$exon" '$4=="KMT2A" && $6==exon {print $8}' "$exon_stats_path")
 
         # calculate ratio compared to exon 27
-        ratio=$(bc <<< "scale=5 ; ${coverage} / ${exon_27}")
+        ratio=$(bc <<< "scale=7 ; ${coverage} / ${exon_27}")
 
         # define the ratio threshold for each exon
         if [[ "$exon" == "3" ]]; then
@@ -62,8 +62,8 @@ main() {
     done
 
     # add data to output file
-    printf "sample\tpredicted_ptd\texon_3_mean_coverage\texon_3_ratio\texon_3_threshold\texon_4_mean_coverage\texon_4_ratio\texon_4_threshold\texon_5_mean_coverage\texon_5_ratio\texon_5_threshold\texon_6_mean_coverage\texon_6_ratio\texon_6_threshold\t250x_coverage_issues\n" > "$output_file"
-    printf "%s\t%s\t%b\t%s\n" "$sample" "$predicted_ptd" "$output_str" "$cov_issues" >> "$output_file"
+    printf "sample\tpredicted_ptd\texon_3_mean_coverage\texon_3_ratio\texon_3_threshold\texon_4_mean_coverage\texon_4_ratio\texon_4_threshold\texon_5_mean_coverage\texon_5_ratio\texon_5_threshold\texon_6_mean_coverage\texon_6_ratio\texon_6_threshold\texon_27_mean_coverage\t250x_coverage_issues\n" > "$output_file"
+    printf "%s\t%s\t%b%s\t%s\n" "$sample" "$predicted_ptd" "$output_str" "$exon_27" "$cov_issues" >> "$output_file"
 
     # add executable name and version to output
     job_id="$DX_JOB_ID"
