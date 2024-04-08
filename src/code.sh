@@ -30,7 +30,7 @@ main() {
         # get mean exon coverage from input file
         coverage=$(awk -F"\t" -v exon="$exon" '$4=="KMT2A" && $6==exon {print $8}' "$exon_stats_path")
 
-        # calculate ratio compared to exon 27
+        # calculate ratio compared to exon 27, to 7 decimal places
         ratio=$(bc <<< "scale=7 ; ${coverage} / ${exon_27}")
 
         # define the ratio threshold for each exon
