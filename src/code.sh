@@ -21,6 +21,14 @@ main() {
     output_str=""
     cov_issues=""
 
+    # get header row, check fields 4, 6, 8 & 11 are as expected
+    headers=$(awk -F "\t" 'FNR==1 {print $4 " " $6 " " $8 " " $11}' "$exon_stats_path")
+
+    if [[ "$headers" != "gene exon mean 250x" ]]; then
+        echo "ERROR: Relevant columns are not in the expected places."
+        exit 1
+    fi
+
     # get mean coverage for KMT2A exon 27
     exon_27=$(awk -F "\t" '$4=="KMT2A" && $6=="27" {print $8}' "$exon_stats_path")
 
