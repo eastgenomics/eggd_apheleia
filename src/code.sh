@@ -10,7 +10,7 @@ main() {
 
     # define sample name, make output dir and file
     sample="${exon_stats_prefix%%_exon_stats}"
-    output_dir="${HOME}/out/apheleia_tsv/eggd_apheleia/"
+    output_dir="${HOME}/out/apheleia_tsv/"
     output_file="${output_dir}${sample}_apheleia_output.tsv"
 
     mkdir -p "$output_dir"
