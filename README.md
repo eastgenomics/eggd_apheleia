@@ -2,6 +2,8 @@
 
 Predicts the potential presence or absence of partial tandem duplications (PTDs) in the KMT2A gene, for samples processed via the Uranus workflow for somatic variant calling in haematological oncology cases.
 
+Please note that this output is not currently validated for clinical use, and is provided for research use only.
+
 ## Approach
 
 Given the file ID for a sample's exon-level Athena output, the app extracts mean coverage values for specific KMT2A exons and uses them to calculate four ratios:
