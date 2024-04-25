@@ -76,7 +76,10 @@ main() {
     # add executable name and version to output
     job_id="$DX_JOB_ID"
     job_name=$(dx describe "$job_id" --json | jq -r '.name')
-    printf "\nFile generated on:\t%s\nExecutable:\t%s\nJob ID:\t%s\n" "$(date '+%Y-%m-%d %H:%M:%S')" "$job_name" "$job_id" >> "$output_file"
+    printf "\nFile generated on:\t%s\nExecutable:\t%s\nJob ID:\t%s\n" "$(date '+%Y-%m-%d %H:%M:%S')\n" "$job_name" "$job_id" >> "$output_file"
+
+    # add disclaimer that apheleia is currently only suitable for research use
+    printf "\nPlease note that this output is not currently validated for clinical use, and is provided for research use only.\n" >> "$output_file"
 
     # upload output
     dx-upload-all-outputs
