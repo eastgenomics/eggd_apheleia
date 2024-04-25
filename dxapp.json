@@ -2,8 +2,8 @@
     "name": "eggd_apheleia",
     "title": "eggd_apheleia",
     "summary": "Predicts the possible presence of KMT2A-PTDs using mean exon coverage",
-    "dxapi": "1.0.0",
-    "version": "1.0.0",
+    "dxapi": "1.0.1",
+    "version": "1.0.1",
     "inputSpec": [
       {
         "name": "exon_stats",
